@@ -116,6 +116,18 @@
   .filter-row input[type=text]{min-width:180px;}
   .filter-row select{min-width:130px;}
 
+  .accordion-section{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+  .accordion-section:last-child{margin-bottom:0;}
+  .accordion-header{
+    width:100%;display:flex;align-items:center;justify-content:space-between;
+    background:var(--surface);border:none;border-radius:0;padding:13px 14px;
+    font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;
+  }
+  .accordion-header:hover{background:var(--mat-blue-light);}
+  .accordion-icon{color:var(--ink-soft);font-size:16px;transition:transform 0.2s;flex-shrink:0;}
+  .accordion-header.open .accordion-icon{transform:rotate(90deg);}
+  .accordion-body{padding:14px;border-top:1px solid var(--line);}
+
   .empty{color:var(--ink-soft);font-size:13px;padding:16px 0;text-align:center;}
 
   table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -164,28 +176,63 @@
   <div class="panel" id="settingsPanel" style="display:none;">
     <h2>Configurações</h2>
 
-    <div style="margin-bottom:20px;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Gerenciar alunos <span class="sub" style="font-weight:400;">editar nome/faixa ou remover</span></div>
-      <div class="filter-row">
-        <input type="text" id="manageSearch" placeholder="Buscar por nome...">
-        <select id="manageBeltFilter">
-          <option value="">Todas as faixas</option>
-          <option value="branca">Branca</option>
-          <option value="azul">Azul</option>
-          <option value="roxa">Roxa</option>
-          <option value="marrom">Marrom</option>
-          <option value="preta">Preta</option>
-        </select>
+    <div class="accordion-section">
+      <button class="accordion-header" type="button" data-section="addStudent">
+        <span>Adicionar novo aluno</span>
+        <span class="accordion-icon">›</span>
+      </button>
+      <div class="accordion-body" id="section-addStudent" style="display:none;">
+        <div class="row">
+          <input type="text" id="newName" placeholder="Nome do aluno">
+          <select id="newBelt">
+            <option value="branca">Faixa branca</option>
+            <option value="azul">Faixa azul</option>
+            <option value="roxa">Faixa roxa</option>
+            <option value="marrom">Faixa marrom</option>
+            <option value="preta">Faixa preta</option>
+          </select>
+          <div class="field-inline">
+            <label for="newStartDate" class="field-label">Início no jiu-jitsu</label>
+            <input type="date" id="newStartDate">
+          </div>
+          <button id="addBtn">Adicionar</button>
+        </div>
       </div>
-      <div class="roster" id="manageRoster"></div>
     </div>
 
-    <div style="margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Backup dos dados <span class="sub" style="font-weight:400;">recomendado fazer de vez em quando</span></div>
-      <div class="row">
-        <button class="secondary" id="exportBtn">Exportar backup</button>
-        <button class="ghost" id="importBtn">Importar backup</button>
-        <input type="file" id="importFile" accept="application/json" style="display:none;">
+    <div class="accordion-section">
+      <button class="accordion-header" type="button" data-section="manageStudents">
+        <span>Gerenciar alunos</span>
+        <span class="accordion-icon">›</span>
+      </button>
+      <div class="accordion-body" id="section-manageStudents" style="display:none;">
+        <div class="filter-row">
+          <input type="text" id="manageSearch" placeholder="Buscar por nome...">
+          <select id="manageBeltFilter">
+            <option value="">Todas as faixas</option>
+            <option value="branca">Branca</option>
+            <option value="azul">Azul</option>
+            <option value="roxa">Roxa</option>
+            <option value="marrom">Marrom</option>
+            <option value="preta">Preta</option>
+          </select>
+        </div>
+        <div class="roster" id="manageRoster"></div>
+      </div>
+    </div>
+
+    <div class="accordion-section">
+      <button class="accordion-header" type="button" data-section="backup">
+        <span>Backup dos dados</span>
+        <span class="accordion-icon">›</span>
+      </button>
+      <div class="accordion-body" id="section-backup" style="display:none;">
+        <p class="sub" style="font-size:12px;margin:0 0 10px;">Recomendado fazer de vez em quando.</p>
+        <div class="row">
+          <button class="secondary" id="exportBtn">Exportar backup</button>
+          <button class="ghost" id="importBtn">Importar backup</button>
+          <input type="file" id="importFile" accept="application/json" style="display:none;">
+        </div>
       </div>
     </div>
   </div>
@@ -194,25 +241,6 @@
     <div class="metric"><div class="label">Alunos cadastrados</div><div class="value" id="mTotalStudents">0</div></div>
     <div class="metric"><div class="label" id="mPresentLabel">Presença</div><div class="value" id="mPresentToday">0</div></div>
     <div class="metric"><div class="label">Aulas registradas</div><div class="value" id="mTotalClasses">0</div></div>
-  </div>
-
-  <div class="panel">
-    <h2>Adicionar aluno</h2>
-    <div class="row">
-      <input type="text" id="newName" placeholder="Nome do aluno">
-      <select id="newBelt">
-        <option value="branca">Faixa branca</option>
-        <option value="azul">Faixa azul</option>
-        <option value="roxa">Faixa roxa</option>
-        <option value="marrom">Faixa marrom</option>
-        <option value="preta">Faixa preta</option>
-      </select>
-      <div class="field-inline">
-        <label for="newStartDate" class="field-label">Início no jiu-jitsu</label>
-        <input type="date" id="newStartDate">
-      </div>
-      <button id="addBtn">Adicionar</button>
-    </div>
   </div>
 
   <div class="panel">
@@ -929,6 +957,19 @@ document.getElementById('settingsBtn').onclick = () => {
   const panel = document.getElementById('settingsPanel');
   panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 };
+
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const body = document.getElementById('section-' + header.dataset.section);
+    const isOpen = body.style.display !== 'none';
+    document.querySelectorAll('.accordion-body').forEach(b => b.style.display = 'none');
+    document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+    if(!isOpen){
+      body.style.display = 'block';
+      header.classList.add('open');
+    }
+  });
+});
 
 document.getElementById('exportBtn').onclick = exportBackup;
 document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
