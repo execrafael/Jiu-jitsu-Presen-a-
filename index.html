@@ -627,6 +627,7 @@ let lastReport = null;
 
 function getReportRange(){
   const dates = Object.keys(data.attendance).filter(d => data.attendance[d].length > 0).sort();
+  const start = document.getElementById('reportStart').value || (dates[0] || todayStr());
   const end = document.getElementById('reportEnd').value || (dates[dates.length-1] || todayStr());
   return { start, end };
 }
