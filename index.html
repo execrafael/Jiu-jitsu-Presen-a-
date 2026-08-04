@@ -107,6 +107,14 @@
   .freq{font-size:12px;color:var(--ink-soft);width:74px;text-align:right;flex-shrink:0;}
   .del{background:transparent;border:none;color:var(--ink-soft);cursor:pointer;font-size:16px;padding:2px 6px;}
   .del:hover{color:var(--accent);}
+  .time-tag{font-size:11px;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;}
+
+  .field-inline{display:flex;flex-direction:column;gap:3px;}
+  .field-label{font-size:10px;color:var(--ink-soft);letter-spacing:0.01em;}
+
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .filter-row input[type=text]{min-width:180px;}
+  .filter-row select{min-width:130px;}
 
   .empty{color:var(--ink-soft);font-size:13px;padding:16px 0;text-align:center;}
 
@@ -114,6 +122,21 @@
   th{text-align:left;color:var(--ink-soft);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line);}
   td{padding:8px;border-bottom:1px solid var(--line);}
   tr:last-child td{border-bottom:none;}
+
+  .freq-bar-wrap{display:inline-block;vertical-align:middle;width:64px;height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-right:8px;}
+  .freq-bar{height:100%;border-radius:3px;}
+  .freq-bar-label{display:inline-block;vertical-align:middle;font-size:12px;color:var(--ink-soft);width:34px;}
+
+  .summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .summary-card{background:var(--mat-blue-light);border-radius:10px;padding:12px 14px;}
+  .summary-label{font-size:11px;color:var(--ink-soft);margin-bottom:4px;}
+  .summary-value{font-size:16px;font-weight:700;color:var(--mat-blue-dark);}
+  .summary-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr 1fr;}
+    .summary-cards{grid-template-columns:1fr;}
+  }
 
   #toast{
     position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
@@ -143,6 +166,17 @@
 
     <div style="margin-bottom:20px;">
       <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Gerenciar alunos <span class="sub" style="font-weight:400;">editar nome/faixa ou remover</span></div>
+      <div class="filter-row">
+        <input type="text" id="manageSearch" placeholder="Buscar por nome...">
+        <select id="manageBeltFilter">
+          <option value="">Todas as faixas</option>
+          <option value="branca">Branca</option>
+          <option value="azul">Azul</option>
+          <option value="roxa">Roxa</option>
+          <option value="marrom">Marrom</option>
+          <option value="preta">Preta</option>
+        </select>
+      </div>
       <div class="roster" id="manageRoster"></div>
     </div>
 
@@ -173,6 +207,10 @@
         <option value="marrom">Faixa marrom</option>
         <option value="preta">Faixa preta</option>
       </select>
+      <div class="field-inline">
+        <label for="newStartDate" class="field-label">Início no jiu-jitsu</label>
+        <input type="date" id="newStartDate">
+      </div>
       <button id="addBtn">Adicionar</button>
     </div>
   </div>
@@ -188,6 +226,17 @@
       <span class="sub" style="margin-left:auto;color:var(--ink-soft);font-size:12px;">toque no nome para marcar presença</span>
     </div>
     <p class="sub" style="font-size:12px;margin:0 0 6px;">Treinos às segundas, quartas e sextas</p>
+    <div class="filter-row">
+      <input type="text" id="rosterSearch" placeholder="Buscar por nome...">
+      <select id="rosterBeltFilter">
+        <option value="">Todas as faixas</option>
+        <option value="branca">Branca</option>
+        <option value="azul">Azul</option>
+        <option value="roxa">Roxa</option>
+        <option value="marrom">Marrom</option>
+        <option value="preta">Preta</option>
+      </select>
+    </div>
     <div class="roster" id="roster"></div>
   </div>
 
@@ -402,18 +451,57 @@ function currentDate(){
   return document.getElementById('classDate').value || todayStr();
 }
 
+function formatTrainingTime(startDate){
+  if(!startDate) return null;
+  const start = parseLocalDate(startDate);
+  const now = new Date();
+  if(start > now) return null;
+  const diffDays = Math.floor((now - start) / 86400000);
+  if(diffDays < 1) return 'começou hoje';
+  if(diffDays < 30){
+    const weeks = Math.floor(diffDays / 7);
+    if(weeks < 1) return `há ${diffDays} dia${diffDays===1?'':'s'}`;
+    return `há ${weeks} semana${weeks===1?'':'s'}`;
+  }
+  let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+  if(now.getDate() < start.getDate()) months--;
+  const years = Math.floor(months / 12);
+  const remMonths = months % 12;
+  const parts = [];
+  if(years > 0) parts.push(`${years} ano${years===1?'':'s'}`);
+  if(remMonths > 0 || years === 0) parts.push(`${remMonths} ${remMonths===1?'mês':'meses'}`);
+  return `há ${parts.join(' e ')}`;
+}
+
+function trainingTimeTag(startDate){
+  const label = formatTrainingTime(startDate);
+  return label ? `<span class="time-tag">${label}</span>` : '';
+}
+
+let rosterFilter = { name: '', belt: '' };
+let manageFilter = { name: '', belt: '' };
+
+function matchesFilter(s, filter){
+  const nameOk = !filter.name || s.name.toLowerCase().includes(filter.name.toLowerCase());
+  const beltOk = !filter.belt || s.belt === filter.belt;
+  return nameOk && beltOk;
+}
+
 function addStudent(){
   const nameInput = document.getElementById('newName');
   const beltSelect = document.getElementById('newBelt');
+  const startDateInput = document.getElementById('newStartDate');
   const name = nameInput.value.trim();
   if(!name) return;
   const student = {
     id: 's' + Date.now() + Math.floor(Math.random()*1000),
     name,
     belt: beltSelect.value,
+    startDate: startDateInput.value || todayStr(),
   };
   data.students.push(student);
   nameInput.value = '';
+  startDateInput.value = todayStr();
   saveData();
   render();
   showToast(`${name} adicionado`);
@@ -455,12 +543,14 @@ function cancelEditStudent(){
 function saveEditStudent(studentId){
   const nameInput = document.getElementById('editName_' + studentId);
   const beltSelect = document.getElementById('editBelt_' + studentId);
+  const startInput = document.getElementById('editStart_' + studentId);
   const newName = nameInput.value.trim();
   if(!newName){ showToast('O nome não pode ficar vazio'); return; }
   const student = data.students.find(s => s.id === studentId);
   if(student){
     student.name = newName;
     student.belt = beltSelect.value;
+    student.startDate = startInput.value || student.startDate;
     saveData();
   }
   editingStudentId = null;
@@ -475,8 +565,13 @@ function renderManageRoster(){
     el.innerHTML = '<div class="empty">Nenhum aluno cadastrado ainda.</div>';
     return;
   }
+  const filtered = data.students.filter(s => matchesFilter(s, manageFilter));
+  if(filtered.length === 0){
+    el.innerHTML = '<div class="empty">Nenhum aluno encontrado com esse filtro.</div>';
+    return;
+  }
   el.innerHTML = '';
-  data.students.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
+  filtered.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
     const row = document.createElement('div');
     row.className = 'student-row';
     if(editingStudentId === s.id){
@@ -489,6 +584,10 @@ function renderManageRoster(){
           <option value="marrom" ${s.belt==='marrom'?'selected':''}>Marrom</option>
           <option value="preta" ${s.belt==='preta'?'selected':''}>Preta</option>
         </select>
+        <div class="field-inline">
+          <label for="editStart_${s.id}" class="field-label">Início no jiu-jitsu</label>
+          <input type="date" id="editStart_${s.id}" value="${s.startDate || ''}">
+        </div>
         <button data-save="${s.id}">Salvar</button>
         <button class="ghost" data-cancel="${s.id}">Cancelar</button>
       `;
@@ -496,6 +595,7 @@ function renderManageRoster(){
       row.innerHTML = `
         <div class="name">${s.name}</div>
         <span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span>
+        ${trainingTimeTag(s.startDate)}
         <button class="ghost" data-edit="${s.id}">Editar</button>
         <button class="del" data-del2="${s.id}" title="Remover aluno">×</button>
       `;
@@ -552,21 +652,27 @@ function render(){
   if(data.students.length === 0){
     roster.innerHTML = '<div class="empty">Nenhum aluno cadastrado ainda. Adicione o primeiro acima.</div>';
   }else{
-    const presentSet = new Set(data.attendance[date] || []);
-    data.students.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
-      const present = presentSet.has(s.id);
-      const count = studentClassCount(s.id);
-      const row = document.createElement('div');
-      row.className = 'student-row' + (present ? ' present' : '');
-      row.innerHTML = `
-        <div class="check ${present?'on':''}" data-id="${s.id}">${present?'✓':''}</div>
-        <div class="name" data-id="${s.id}">${s.name}</div>
-        <span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span>
-        <span class="freq">${count} aula${count===1?'':'s'}</span>
-        <button class="del" data-del="${s.id}" title="Remover aluno">×</button>
-      `;
-      roster.appendChild(row);
-    });
+    const filteredRoster = data.students.filter(s => matchesFilter(s, rosterFilter));
+    if(filteredRoster.length === 0){
+      roster.innerHTML = '<div class="empty">Nenhum aluno encontrado com esse filtro.</div>';
+    }else{
+      const presentSet = new Set(data.attendance[date] || []);
+      filteredRoster.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
+        const present = presentSet.has(s.id);
+        const count = studentClassCount(s.id);
+        const row = document.createElement('div');
+        row.className = 'student-row' + (present ? ' present' : '');
+        row.innerHTML = `
+          <div class="check ${present?'on':''}" data-id="${s.id}">${present?'✓':''}</div>
+          <div class="name" data-id="${s.id}">${s.name}</div>
+          <span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span>
+          ${trainingTimeTag(s.startDate)}
+          <span class="freq">${count} aula${count===1?'':'s'}</span>
+          <button class="del" data-del="${s.id}" title="Remover aluno">×</button>
+        `;
+        roster.appendChild(row);
+      });
+    }
   }
 
   // ranking
@@ -582,7 +688,7 @@ function render(){
   }else{
     ranked.forEach(s=>{
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${s.name}</td><td><span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span></td><td>${s.count}</td><td>${s.pct}%</td>`;
+      tr.innerHTML = `<td>${s.name}</td><td><span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span></td><td>${s.count}</td><td>${freqBarHtml(s.pct)}</td>`;
       rankBody.appendChild(tr);
     });
   }
@@ -599,6 +705,16 @@ function attachRosterEvents(){
   document.querySelectorAll('[data-del]').forEach(el=>{
     el.onclick = (e) => { e.stopPropagation(); removeStudent(el.dataset.del); };
   });
+}
+
+function freqBarColor(pct){
+  if(pct >= 80) return 'var(--ok)';
+  if(pct >= 50) return 'var(--mat-blue)';
+  return 'var(--accent)';
+}
+
+function freqBarHtml(pct){
+  return `<div class="freq-bar-wrap"><div class="freq-bar" style="width:${pct}%;background:${freqBarColor(pct)};"></div></div><span class="freq-bar-label">${pct}%</span>`;
 }
 
 function renderChart(){
@@ -633,8 +749,13 @@ function renderChart(){
   });
 }
 
+document.getElementById('newStartDate').value = todayStr();
 document.getElementById('addBtn').onclick = addStudent;
 document.getElementById('newName').addEventListener('keydown', e=>{ if(e.key==='Enter') addStudent(); });
+document.getElementById('rosterSearch').addEventListener('input', e=>{ rosterFilter.name = e.target.value; render(); });
+document.getElementById('rosterBeltFilter').addEventListener('change', e=>{ rosterFilter.belt = e.target.value; render(); });
+document.getElementById('manageSearch').addEventListener('input', e=>{ manageFilter.name = e.target.value; renderManageRoster(); });
+document.getElementById('manageBeltFilter').addEventListener('change', e=>{ manageFilter.belt = e.target.value; renderManageRoster(); });
 document.getElementById('prevDayBtn').onclick = () => {
   const el = document.getElementById('classDate');
   el.value = nearestTrainingDay(currentDate(), -1);
@@ -671,7 +792,17 @@ function buildReport(){
     return { name: s.name, belt: beltLabel(s.belt), count, total: totalClasses, pct };
   }).sort((a,b)=> b.pct - a.pct);
 
-  lastReport = { start, end, totalClasses, rows };
+  let totalCheckins = 0;
+  let bestDate = null, bestDateCount = -1;
+  datesInRange.forEach(d => {
+    const c = data.attendance[d].length;
+    totalCheckins += c;
+    if(c > bestDateCount){ bestDateCount = c; bestDate = d; }
+  });
+  const avgPerClass = totalClasses ? (totalCheckins / totalClasses) : 0;
+  const topStudent = rows.length && rows[0].count > 0 ? rows[0] : null;
+
+  lastReport = { start, end, totalClasses, rows, summary: { avgPerClass, bestDate, bestDateCount, topStudent } };
   return lastReport;
 }
 
@@ -682,10 +813,30 @@ function renderReport(){
     area.innerHTML = '<div class="empty">Nenhuma aula registrada nesse período.</div>';
     return;
   }
+  const { summary } = report;
   let html = `<p style="font-size:12px;color:var(--ink-soft);margin:0 0 10px;">${fmtDate(report.start)} a ${fmtDate(report.end)} — ${report.totalClasses} aula${report.totalClasses===1?'':'s'} no período</p>`;
+
+  html += '<div class="summary-cards">';
+  html += `<div class="summary-card">
+    <div class="summary-label">Aluno mais assíduo</div>
+    <div class="summary-value">${summary.topStudent ? summary.topStudent.name : '—'}</div>
+    ${summary.topStudent ? `<div class="summary-sub">${summary.topStudent.count}/${report.totalClasses} aulas (${summary.topStudent.pct}%)</div>` : ''}
+  </div>`;
+  html += `<div class="summary-card">
+    <div class="summary-label">Média por aula</div>
+    <div class="summary-value">${summary.avgPerClass.toFixed(1)}</div>
+    <div class="summary-sub">alunos presentes</div>
+  </div>`;
+  html += `<div class="summary-card">
+    <div class="summary-label">Aula mais cheia</div>
+    <div class="summary-value">${summary.bestDate ? fmtDate(summary.bestDate) : '—'}</div>
+    ${summary.bestDate ? `<div class="summary-sub">${summary.bestDateCount} presentes</div>` : ''}
+  </div>`;
+  html += '</div>';
+
   html += '<table><thead><tr><th>Aluno</th><th>Faixa</th><th>Presenças</th><th>Frequência</th></tr></thead><tbody>';
   report.rows.forEach(r=>{
-    html += `<tr><td>${r.name}</td><td>${r.belt}</td><td>${r.count}/${r.total}</td><td>${r.pct}%</td></tr>`;
+    html += `<tr><td>${r.name}</td><td>${r.belt}</td><td>${r.count}/${r.total}</td><td>${freqBarHtml(r.pct)}</td></tr>`;
   });
   html += '</tbody></table>';
   area.innerHTML = html;
