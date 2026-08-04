@@ -1,6 +1,6 @@
 {
-  "name": "Projeto Integração Jiu-Jitsu / Presença",
-  "short_name": "Presença JJ",
+  "name": "Integração BJJ",
+  "short_name": "Integração BJJ",
   "description": "Controle de presença dos alunos de jiu-jitsu",
   "start_url": "./index.html",
   "scope": "./",
