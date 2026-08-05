@@ -1,5 +1,5 @@
-const CACHE_NAME = 'presenca-jj-v5';
-const APP_SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'presenca-jj-v6';
+const APP_SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './kimono-icon.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
