@@ -7,138 +7,157 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#1D4E7A">
+<meta name="theme-color" content="#0A3B63">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #F3F1EA;
-    --surface: #FFFFFF;
-    --ink: #1C2321;
-    --ink-soft: #5B615E;
-    --line: #E2DFD4;
-    --mat-blue: #1D4E7A;
-    --mat-blue-dark: #123A5C;
-    --mat-blue-light: #E7EEF4;
-    --accent: #B5482C;
-    --belt-white: #FAFAF7;
+    --ink:#122436;
+    --ink-soft:#5B7385;
+    --navy:#0A3B63;
+    --azure:#1671B3;
+    --sky:#4FC3F7;
+    --sky-light:#E4F5FD;
+    --paper:#F5F9FC;
+    --white:#FFFFFF;
+    --line:#E3EDF4;
+    --belt-white:#F3F1E9;
     --belt-white-ink:#54524A;
-    --belt-blue: #1D4E7A;
-    --belt-purple: #5B3A8E;
-    --belt-brown: #6B4226;
-    --belt-black: #17181A;
-    --ok: #2F7A4F;
+    --belt-blue:#2E6DA4;
+    --belt-purple:#6C4675;
+    --belt-brown:#6B4226;
+    --belt-black:#1A1A1A;
+    --ok:#2E8B57;
+    --accent:#B23A3A;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
+    background:var(--paper);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
   }
-  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px;}
+  button{font-family:inherit;}
 
-  .hero{margin-bottom:22px;}
-  .hero-top{display:flex;align-items:center;gap:12px;}
-  .hero h1{
-    font-size:26px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;
+  /* ---------- HEADER ---------- */
+  .header{position:relative;padding:26px 20px 56px;background:linear-gradient(135deg, var(--navy) 0%, var(--azure) 62%, var(--sky) 130%);color:var(--white);overflow:hidden;}
+  .header::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.055) 0 2px, transparent 2px 26px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 26px);
+    opacity:.9;
   }
-  .hero p{margin:0;color:var(--ink-soft);font-size:14px;}
-  .belt-btn{
-    background:var(--surface);border:1px solid var(--line);color:var(--ink);
-    width:38px;height:38px;border-radius:10px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;padding:0;
+  .header-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;}
+  .header-top{display:flex;align-items:center;gap:10px;}
+  .knot-logo{width:34px;height:34px;flex:none;}
+  .month-badge{
+    position:absolute;top:16px;right:20px;z-index:2;
+    font-size:10.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--sky-light);background:rgba(255,255,255,0.14);
+    padding:4px 11px;border-radius:20px;
   }
-  .belt-btn svg{overflow:visible;}
-  .belt-tail-left,.belt-tail-right{transform-origin:20px 15px;}
-  .belt-tail-left{animation:beltSwayLeft 2.6s ease-in-out infinite;}
-  .belt-tail-right{animation:beltSwayRight 2.6s ease-in-out infinite;}
-  @keyframes beltSwayLeft{
-    0%,100%{transform:rotate(-5deg);}
-    50%{transform:rotate(5deg);}
-  }
-  @keyframes beltSwayRight{
-    0%,100%{transform:rotate(5deg);}
-    50%{transform:rotate(-5deg);}
-  }
-  .stripe{
-    display:flex;gap:4px;margin-top:12px;height:8px;width:220px;
-  }
-  .stripe span{flex:1;border-radius:2px;background:var(--line);}
-  .stripe span.on{background:var(--mat-blue);}
+  .eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky-light);opacity:.85;font-weight:600;margin:0;}
+  .title{font-family:'Manrope',sans-serif;font-weight:800;font-size:26px;margin:2px 0 0;letter-spacing:-.01em;}
+  .subtitle{font-size:13px;color:var(--sky-light);opacity:.9;margin:6px 0 0;}
+  .sync-line{font-size:11.5px;color:var(--sky-light);opacity:.75;margin:4px 0 0;}
+  .wave{position:absolute;left:0;right:0;bottom:-1px;height:34px;background:var(--paper);border-radius:50% 50% 0 0 / 100% 100% 0 0;transform:scaleX(1.4);z-index:0;}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-  .metric{
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;
-    padding:14px 16px;
-  }
-  .metric .label{font-size:12px;color:var(--ink-soft);margin-bottom:6px;}
-  .metric .value{font-size:22px;font-weight:700;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px;}
 
-  .panel{
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;
-    padding:18px 20px;margin-bottom:20px;
-  }
-  .panel h2{font-size:15px;font-weight:700;margin:0 0 14px;display:flex;align-items:center;justify-content:space-between;}
-  .panel h2 .sub{font-weight:400;color:var(--ink-soft);font-size:12px;}
+  /* ---------- STAT CARDS ---------- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:-40px;position:relative;z-index:2;}
+  .stat-card{background:var(--white);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:0 8px 20px -10px rgba(10,59,99,.25);}
+  .stat-num{font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:var(--navy);}
+  .stat-label{font-size:10.5px;color:var(--ink-soft);margin-top:2px;line-height:1.2;}
+  .stat-icon{width:18px;height:18px;margin:0 auto 4px;color:var(--azure);}
 
+  /* ---------- BELT DIVIDER ---------- */
+  .belt-divider{display:flex;height:8px;border-radius:6px;overflow:hidden;margin:24px 0 18px;box-shadow:inset 0 0 0 1px rgba(10,59,99,.06);}
+  .belt-divider span{flex:1;}
+  .belt-divider .w{background:var(--belt-white);}
+  .belt-divider .b{background:var(--belt-blue);}
+  .belt-divider .p{background:var(--belt-purple);}
+  .belt-divider .m{background:var(--belt-brown);}
+  .belt-divider .k{background:var(--belt-black);}
+
+  /* ---------- SECTION ---------- */
+  .section{padding:0 0 8px;}
+  .section-title{font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:var(--navy);margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .section-title .tag{font-size:10.5px;font-weight:600;color:var(--azure);background:var(--sky-light);padding:3px 8px;border-radius:20px;}
+  .back-link{margin-left:auto;background:none;border:none;color:var(--azure);font-size:12.5px;font-weight:600;cursor:pointer;padding:0;}
+
+  /* ---------- FORMS ---------- */
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
   input[type=text], select, input[type=date]{
-    border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14px;
-    background:#fff;color:var(--ink);
+    border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:14px;
+    background:#fff;color:var(--ink);font-family:'Inter',sans-serif;
   }
   input[type=text]{flex:1;min-width:160px;}
-  button{
-    border:none;border-radius:8px;padding:9px 14px;font-size:14px;font-weight:600;
-    background:var(--mat-blue);color:#fff;cursor:pointer;
-  }
-  button.secondary{background:var(--mat-blue-light);color:var(--mat-blue-dark);}
-  button.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line);}
-  button:hover{opacity:0.92;}
-  button:active{transform:scale(0.98);}
-
-  .roster{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
-  .student-row{
-    display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);
-    border-radius:10px;background:#fff;
-  }
-  .student-row.present{border-color:var(--ok);background:#F3FAF5;}
-  .check{
-    width:24px;height:24px;border-radius:50%;border:2px solid var(--line);
-    display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
-    font-size:14px;color:#fff;font-weight:700;
-  }
-  .check.on{background:var(--ok);border-color:var(--ok);}
-  .name{font-weight:600;font-size:14px;flex:1;}
-  .belt-tag{
-    font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.02em;
-  }
-  .belt-branca{background:var(--belt-white);color:var(--belt-white-ink);border:1px solid var(--line);}
-  .belt-azul{background:#E7EEF4;color:var(--belt-blue);}
-  .belt-roxa{background:#EFE8F7;color:var(--belt-purple);}
-  .belt-marrom{background:#EFE4DA;color:var(--belt-brown);}
-  .belt-preta{background:#26272A;color:#fff;}
-  .freq{font-size:12px;color:var(--ink-soft);width:74px;text-align:right;flex-shrink:0;}
-  .del{background:transparent;border:none;color:var(--ink-soft);cursor:pointer;font-size:16px;padding:2px 6px;}
-  .del:hover{color:var(--accent);}
-  .time-tag{font-size:11px;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;}
-
   .field-inline{display:flex;flex-direction:column;gap:3px;}
   .field-label{font-size:10px;color:var(--ink-soft);letter-spacing:0.01em;}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .filter-row input[type=text]{min-width:160px;}
+  .filter-row select{min-width:120px;}
 
-  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-  .filter-row input[type=text]{min-width:180px;}
-  .filter-row select{min-width:130px;}
+  /* ---------- BUTTONS ---------- */
+  .btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 14px;border-radius:16px;font-weight:600;font-size:13px;border:none;cursor:pointer;}
+  .btn-primary{background:linear-gradient(135deg,var(--navy),var(--azure));color:var(--white);box-shadow:0 10px 20px -10px rgba(10,59,99,.5);}
+  .btn-secondary{background:var(--white);color:var(--navy);box-shadow:0 4px 14px -8px rgba(10,59,99,.2);}
+  .btn:hover{opacity:0.94;}
+  .btn:active{transform:scale(0.98);}
+  .btn svg{width:15px;height:15px;flex:none;}
+  .oss-bar{width:24px;height:9px;}
+  .nav-btn{background:var(--white);color:var(--navy);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer;}
+  .actions{display:flex;gap:10px;margin-top:8px;}
 
-  .accordion-section{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
-  .accordion-section:last-child{margin-bottom:0;}
-  .accordion-header{
-    width:100%;display:flex;align-items:center;justify-content:space-between;
-    background:var(--surface);border:none;border-radius:0;padding:13px 14px;
-    font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;
+  /* ---------- ROSTER / STUDENT ---------- */
+  .roster{display:flex;flex-direction:column;gap:8px;}
+  .student{display:flex;align-items:center;gap:12px;background:var(--white);border-radius:16px;padding:10px 12px;box-shadow:0 4px 14px -8px rgba(10,59,99,.18);}
+  .avatar{
+    width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;color:var(--white);flex:none;
+    box-shadow:0 0 0 3px var(--white), 0 0 0 4.5px var(--ring, var(--belt-blue));
   }
-  .accordion-header:hover{background:var(--mat-blue-light);}
-  .accordion-icon{color:var(--ink-soft);font-size:16px;transition:transform 0.2s;flex-shrink:0;}
-  .accordion-header.open .accordion-icon{transform:rotate(90deg);}
-  .accordion-body{padding:14px;border-top:1px solid var(--line);}
+  .avatar.big{width:56px;height:56px;font-size:18px;}
+  .name-block{flex:1;min-width:0;}
+  .s-name{font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .s-belt{font-size:11px;color:var(--ink-soft);margin-top:1px;}
+  .toggle{width:38px;height:38px;border-radius:50%;flex:none;border:2px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.25s ease;}
+  .toggle.on{background:linear-gradient(135deg,var(--azure),var(--sky));border-color:transparent;}
+  .toggle svg{width:17px;height:17px;opacity:0;transform:scale(.5);transition:.25s ease;}
+  .toggle.on svg{opacity:1;transform:scale(1);}
+  .hint{font-size:10.5px;color:var(--ink-soft);text-align:center;margin:10px 0 4px;}
+
+  .belt-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.02em;}
+  .belt-branca{background:var(--belt-white);color:var(--belt-white-ink);border:1px solid var(--line);}
+  .belt-azul{background:var(--sky-light);color:var(--belt-blue);}
+  .belt-roxa{background:#EFE6F0;color:var(--belt-purple);}
+  .belt-marrom{background:#EFE4DA;color:var(--belt-brown);}
+  .belt-preta{background:#26272A;color:#fff;}
+
+  /* ---------- SETTINGS / OSS PANEL ---------- */
+  .settings-panel{background:var(--white);border-radius:18px;padding:6px;box-shadow:0 8px 20px -10px rgba(10,59,99,.2);}
+  .settings-row{width:100%;display:flex;align-items:center;gap:10px;padding:13px 12px;font-size:13.5px;font-weight:600;color:var(--navy);border-radius:12px;background:none;border:none;cursor:pointer;text-align:left;}
+  .settings-row:hover, .settings-row.active{background:var(--sky-light);}
+  .settings-icon-sm{width:22px;text-align:center;color:var(--azure);font-weight:700;flex:none;}
+  .settings-sub{padding:2px 10px 10px 12px;}
+  .mini-student{display:flex;align-items:center;gap:10px;background:var(--sky-light);border-radius:12px;padding:8px 10px;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;margin-bottom:6px;}
+  .mini-student:last-child{margin-bottom:0;}
+  .mini-student .chev{margin-left:auto;color:var(--azure);font-weight:700;}
+
+  /* ---------- STUDENT DETAIL ---------- */
+  .detail-card{background:var(--white);border-radius:20px;padding:18px;box-shadow:0 8px 20px -10px rgba(10,59,99,.22);}
+  .detail-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .detail-name{font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;color:var(--ink);}
+  .belt-pill{display:inline-block;margin-top:4px;font-size:11px;font-weight:600;color:var(--pill);background:color-mix(in srgb, var(--pill) 14%, white);padding:3px 10px;border-radius:20px;}
+  .detail-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);}
+  .detail-label{font-size:12.5px;color:var(--ink-soft);}
+  .detail-value{font-size:13px;font-weight:600;color:var(--navy);}
+
+  /* ---------- CARDS ---------- */
+  .panel{background:var(--white);border-radius:20px;padding:18px 20px;box-shadow:0 8px 20px -10px rgba(10,59,99,.18);}
 
   .empty{color:var(--ink-soft);font-size:13px;padding:16px 0;text-align:center;}
 
@@ -152,133 +171,79 @@
   .freq-bar-label{display:inline-block;vertical-align:middle;font-size:12px;color:var(--ink-soft);width:34px;}
 
   .summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-  .summary-card{background:var(--mat-blue-light);border-radius:10px;padding:12px 14px;}
+  .summary-card{background:var(--sky-light);border-radius:14px;padding:12px 14px;}
   .summary-label{font-size:11px;color:var(--ink-soft);margin-bottom:4px;}
-  .summary-value{font-size:16px;font-weight:700;color:var(--mat-blue-dark);}
+  .summary-value{font-size:16px;font-weight:700;color:var(--navy);}
   .summary-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;}
 
+  .del{background:transparent;border:none;color:var(--ink-soft);cursor:pointer;font-size:16px;padding:2px 6px;}
+  .del:hover{color:var(--accent);}
+
   @media (max-width:560px){
-    .grid{grid-template-columns:1fr 1fr;}
     .summary-cards{grid-template-columns:1fr;}
+    .actions{flex-direction:column;}
   }
 
   #toast{
     position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
     background:var(--ink);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;
-    opacity:0;pointer-events:none;transition:opacity 0.25s;
+    opacity:0;pointer-events:none;transition:opacity 0.25s;z-index:50;
   }
   #toast.show{opacity:0.95;}
 </style>
 </head>
 <body>
+
+<div class="header">
+  <div class="header-inner">
+    <span class="month-badge" id="monthBadge"></span>
+    <div class="header-top">
+      <svg class="knot-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="23" fill="rgba(255,255,255,0.12)"/>
+        <path d="M24 8c-3 4-9 5-9 11 0 4 3 6 3 6s-3 2-3 6c0 6 6 7 9 11 3-4 9-5 9-11 0-4-3-6-3-6s3-2 3-6c0-6-6-7-9-11z" fill="#fff" opacity="0.95"/>
+        <circle cx="24" cy="24" r="4.5" fill="#1671B3"/>
+      </svg>
+      <div>
+        <p class="eyebrow">Projeto Integração · Campo Limpo</p>
+        <h1 class="title">Jiu-Jitsu</h1>
+      </div>
+    </div>
+    <p class="subtitle">Segunda · Quarta · Sexta</p>
+    <p class="sync-line" id="syncStatus">Conectando à nuvem...</p>
+  </div>
+  <div class="wave"></div>
+</div>
+
 <div class="wrap">
 
-  <div class="hero">
-    <div class="hero-top">
-      <button class="belt-btn" id="settingsBtn" title="Configurações" aria-label="Configurações">
-        <svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true">
-          <rect x="15" y="9" width="10" height="10" rx="2" fill="#1D4E7A" transform="rotate(45 20 14)"/>
-          <rect x="16.5" y="10.5" width="7" height="7" rx="1.5" fill="#123A5C" transform="rotate(45 20 14)"/>
-          <g transform="rotate(-20 20 15)">
-            <g class="belt-tail-left">
-              <rect x="17" y="15" width="6" height="20" rx="2" fill="#1D4E7A"/>
-              <rect x="17" y="28" width="6" height="7" rx="2" fill="#17181A"/>
-            </g>
-          </g>
-          <g transform="rotate(20 20 15)">
-            <g class="belt-tail-right">
-              <rect x="17" y="15" width="6" height="20" rx="2" fill="#1D4E7A"/>
-            </g>
-          </g>
-        </svg>
-      </button>
-      <h1>Projeto integração jiu-jitsu</h1>
+  <div class="stats">
+    <div class="stat-card">
+      <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 20v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="stat-num" id="mTotalStudents">0</div>
+      <div class="stat-label">Alunos<br>cadastrados</div>
     </div>
-    <div class="stripe" id="stripe"></div>
-    <p class="sub" id="syncStatus" style="margin-top:8px;font-size:12px;color:var(--ink-soft);">Conectando à nuvem...</p>
-  </div>
-
-  <div class="panel" id="settingsPanel" style="display:none;">
-    <h2>Configurações</h2>
-
-    <div class="accordion-section">
-      <button class="accordion-header" type="button" data-section="addStudent">
-        <span>Adicionar novo aluno</span>
-        <span class="accordion-icon">›</span>
-      </button>
-      <div class="accordion-body" id="section-addStudent" style="display:none;">
-        <div class="row">
-          <input type="text" id="newName" placeholder="Nome do aluno">
-          <select id="newBelt">
-            <option value="branca">Faixa branca</option>
-            <option value="azul">Faixa azul</option>
-            <option value="roxa">Faixa roxa</option>
-            <option value="marrom">Faixa marrom</option>
-            <option value="preta">Faixa preta</option>
-          </select>
-          <div class="field-inline">
-            <label for="newStartDate" class="field-label">Início no jiu-jitsu</label>
-            <input type="date" id="newStartDate">
-          </div>
-          <button id="addBtn">Adicionar</button>
-        </div>
-      </div>
+    <div class="stat-card">
+      <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+      <div class="stat-num" id="mPresentToday">0</div>
+      <div class="stat-label" id="mPresentLabel">Presença</div>
     </div>
-
-    <div class="accordion-section">
-      <button class="accordion-header" type="button" data-section="manageStudents">
-        <span>Gerenciar alunos</span>
-        <span class="accordion-icon">›</span>
-      </button>
-      <div class="accordion-body" id="section-manageStudents" style="display:none;">
-        <div class="filter-row">
-          <input type="text" id="manageSearch" placeholder="Buscar por nome...">
-          <select id="manageBeltFilter">
-            <option value="">Todas as faixas</option>
-            <option value="branca">Branca</option>
-            <option value="azul">Azul</option>
-            <option value="roxa">Roxa</option>
-            <option value="marrom">Marrom</option>
-            <option value="preta">Preta</option>
-          </select>
-        </div>
-        <div class="roster" id="manageRoster"></div>
-      </div>
-    </div>
-
-    <div class="accordion-section">
-      <button class="accordion-header" type="button" data-section="backup">
-        <span>Backup dos dados</span>
-        <span class="accordion-icon">›</span>
-      </button>
-      <div class="accordion-body" id="section-backup" style="display:none;">
-        <p class="sub" style="font-size:12px;margin:0 0 10px;">Recomendado fazer de vez em quando.</p>
-        <div class="row">
-          <button class="secondary" id="exportBtn">Exportar backup</button>
-          <button class="ghost" id="importBtn">Importar backup</button>
-          <input type="file" id="importFile" accept="application/json" style="display:none;">
-        </div>
-      </div>
+    <div class="stat-card">
+      <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+      <div class="stat-num" id="mTotalClasses">0</div>
+      <div class="stat-label">Aulas<br>registradas</div>
     </div>
   </div>
 
-  <div class="grid">
-    <div class="metric"><div class="label">Alunos cadastrados</div><div class="value" id="mTotalStudents">0</div></div>
-    <div class="metric"><div class="label" id="mPresentLabel">Presença</div><div class="value" id="mPresentToday">0</div></div>
-    <div class="metric"><div class="label">Aulas registradas</div><div class="value" id="mTotalClasses">0</div></div>
-  </div>
+  <div class="belt-divider"><span class="w"></span><span class="b"></span><span class="p"></span><span class="m"></span><span class="k"></span></div>
 
-  <div class="panel">
-    <h2>Chamada</h2>
-    <div class="row" style="margin-bottom:6px;">
-      <button class="ghost" id="prevDayBtn" title="Aula anterior">◀</button>
-      <span id="classDateDisplay" style="font-weight:700;min-width:120px;text-align:center;font-size:15px;"></span>
-      <button class="ghost" id="nextDayBtn" title="Próxima aula">▶</button>
-      <button class="ghost" id="todayBtn">Hoje</button>
+  <div class="section">
+    <p class="section-title">Chamada <span class="tag" id="classDateTag"></span></p>
+    <div class="row" style="margin-bottom:10px;">
+      <button class="nav-btn" id="prevDayBtn" title="Aula anterior">‹</button>
+      <button class="nav-btn" id="todayBtn">Hoje</button>
+      <button class="nav-btn" id="nextDayBtn" title="Próxima aula">›</button>
       <input type="hidden" id="classDate">
-      <span class="sub" style="margin-left:auto;color:var(--ink-soft);font-size:12px;">toque no nome para marcar presença</span>
     </div>
-    <p class="sub" style="font-size:12px;margin:0 0 6px;">Treinos às segundas, quartas e sextas</p>
     <div class="filter-row">
       <input type="text" id="rosterSearch" placeholder="Buscar por nome...">
       <select id="rosterBeltFilter">
@@ -291,37 +256,133 @@
       </select>
     </div>
     <div class="roster" id="roster"></div>
+    <p class="hint">toque no círculo pra marcar presença</p>
   </div>
 
-  <div class="panel">
-    <h2>Presença nas últimas aulas</h2>
-    <div style="position:relative;width:100%;height:220px;">
-      <canvas id="chart" role="img" aria-label="Gráfico de barras mostrando o número de alunos presentes nas últimas aulas registradas"></canvas>
+  <div class="belt-divider"><span class="w"></span><span class="b"></span><span class="p"></span><span class="m"></span><span class="k"></span></div>
+
+  <div class="section">
+    <p class="section-title">Presença nas últimas aulas</p>
+    <div class="panel">
+      <div style="position:relative;width:100%;height:220px;">
+        <canvas id="chart" role="img" aria-label="Gráfico de barras mostrando o número de alunos presentes nas últimas aulas registradas"></canvas>
+      </div>
     </div>
   </div>
 
-  <div class="panel">
-    <h2>Relatório de frequência</h2>
-    <div class="row" style="margin-bottom:14px;">
-      <label style="font-size:13px;color:var(--ink-soft);">De</label>
-      <input type="date" id="reportStart">
-      <label style="font-size:13px;color:var(--ink-soft);">até</label>
-      <input type="date" id="reportEnd">
-      <button class="secondary" id="genReportBtn">Gerar relatório</button>
-      <button class="ghost" id="downloadCsvBtn">Baixar CSV</button>
-      <button class="ghost" id="downloadPdfBtn">Baixar PDF</button>
-    </div>
-    <div id="reportArea">
-      <div class="empty">Escolha um período e clique em "Gerar relatório".</div>
+  <div class="belt-divider"><span class="w"></span><span class="b"></span><span class="p"></span><span class="m"></span><span class="k"></span></div>
+
+  <div class="section" id="reportSection">
+    <p class="section-title">Relatório de frequência</p>
+    <div class="panel">
+      <div class="row" style="margin-bottom:14px;">
+        <label style="font-size:13px;color:var(--ink-soft);">De</label>
+        <input type="date" id="reportStart">
+        <label style="font-size:13px;color:var(--ink-soft);">até</label>
+        <input type="date" id="reportEnd">
+        <button class="btn btn-secondary" id="genReportBtn">Gerar relatório</button>
+        <button class="btn btn-secondary" id="downloadCsvBtn">Baixar CSV</button>
+        <button class="btn btn-secondary" id="downloadPdfBtn">Baixar PDF</button>
+      </div>
+      <div id="reportArea">
+        <div class="empty">Escolha um período e clique em "Gerar relatório".</div>
+      </div>
     </div>
   </div>
 
-  <div class="panel">
-    <h2>Ranking de frequência</h2>
-    <table id="rankTable">
-      <thead><tr><th>Aluno</th><th>Faixa</th><th>Aulas</th><th>Frequência</th></tr></thead>
-      <tbody id="rankBody"></tbody>
-    </table>
+  <div class="belt-divider"><span class="w"></span><span class="b"></span><span class="p"></span><span class="m"></span><span class="k"></span></div>
+
+  <div class="section">
+    <p class="section-title">Ranking de frequência</p>
+    <div class="panel">
+      <table id="rankTable">
+        <thead><tr><th>Aluno</th><th>Faixa</th><th>Aulas</th><th>Frequência</th></tr></thead>
+        <tbody id="rankBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="belt-divider"><span class="w"></span><span class="b"></span><span class="p"></span><span class="m"></span><span class="k"></span></div>
+
+  <div class="section" id="addStudentSection" style="display:none;">
+    <p class="section-title">Adicionar novo aluno</p>
+    <div class="settings-panel">
+      <div class="row" style="padding:10px;">
+        <input type="text" id="newName" placeholder="Nome do aluno">
+        <select id="newBelt">
+          <option value="branca">Faixa branca</option>
+          <option value="azul">Faixa azul</option>
+          <option value="roxa">Faixa roxa</option>
+          <option value="marrom">Faixa marrom</option>
+          <option value="preta">Faixa preta</option>
+        </select>
+        <div class="field-inline">
+          <label for="newStartDate" class="field-label">Início no jiu-jitsu</label>
+          <input type="date" id="newStartDate">
+        </div>
+        <button class="btn btn-primary" id="addBtn">Adicionar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="ossSection" style="display:none;">
+    <p class="section-title">OSS</p>
+    <div class="settings-panel">
+      <button class="settings-row" type="button" id="manageToggle">
+        <span class="settings-icon-sm">☰</span> Gerenciar alunos
+      </button>
+      <div class="settings-sub" id="manageSub" style="display:none;">
+        <div class="filter-row">
+          <input type="text" id="manageSearch" placeholder="Buscar por nome...">
+          <select id="manageBeltFilter">
+            <option value="">Todas as faixas</option>
+            <option value="branca">Branca</option>
+            <option value="azul">Azul</option>
+            <option value="roxa">Roxa</option>
+            <option value="marrom">Marrom</option>
+            <option value="preta">Preta</option>
+          </select>
+        </div>
+        <div id="manageRoster"></div>
+        <p class="hint">toque num aluno pra ver os detalhes dele</p>
+      </div>
+      <button class="settings-row" type="button" id="backupToggle">
+        <span class="settings-icon-sm">⇅</span> Backup dos dados
+      </button>
+      <div class="settings-sub" id="backupSub" style="display:none;">
+        <p class="hint" style="margin:0 0 10px;">Recomendado fazer de vez em quando.</p>
+        <div class="row">
+          <button class="btn btn-secondary" id="exportBtn">Exportar backup</button>
+          <button class="btn btn-secondary" id="importBtn">Importar backup</button>
+          <input type="file" id="importFile" accept="application/json" style="display:none;">
+        </div>
+      </div>
+    </div>
+
+    <div id="studentDetailSection" style="display:none;margin-top:18px;">
+      <p class="section-title">Detalhes do aluno <button class="back-link" id="detailBackBtn" type="button">‹ voltar</button></p>
+      <div class="detail-card" id="detailCard"></div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-secondary" id="addStudentBtn" style="flex:1;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      Adicionar aluno
+    </button>
+    <button class="btn btn-secondary" id="ossBtn" style="flex:1;">
+      <svg class="oss-bar" viewBox="0 0 26 10" aria-hidden="true">
+        <rect x="0" y="2" width="26" height="6" rx="3" fill="#141414"/>
+        <rect x="19" y="2" width="7" height="6" rx="3" fill="#B23A3A"/>
+      </svg>
+      OSS
+    </button>
+  </div>
+  <div class="actions">
+    <button class="btn btn-primary" id="reportBtn" style="width:100%;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+      Relatório
+    </button>
   </div>
 
 </div>
@@ -465,6 +526,11 @@ async function saveData(){
 }
 
 const TRAINING_WEEKDAYS = [1, 3, 5]; // 0=domingo, 1=segunda, 3=quarta, 5=sexta
+const MONTH_NAMES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MONTH_ABBR_PT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const WEEKDAY_ABBR_PT = ['dom','seg','ter','qua','qui','sex','sáb'];
+const BELT_COLOR = { branca:'#F3F1E9', azul:'#2E6DA4', roxa:'#6C4675', marrom:'#6B4226', preta:'#1A1A1A' };
+const BELT_TEXT  = { branca:'#54524A', azul:'#fff', roxa:'#fff', marrom:'#fff', preta:'#fff' };
 
 function parseLocalDate(str){
   const [y,m,d] = str.split('-').map(Number);
@@ -504,17 +570,35 @@ function currentDate(){
   return document.getElementById('classDate').value || todayStr();
 }
 
-function formatTrainingTime(startDate){
+function updateMonthBadge(){
+  const el = document.getElementById('monthBadge');
+  if(el) el.textContent = MONTH_NAMES_PT[new Date().getMonth()];
+}
+
+function classDateTagLabel(dateStr){
+  const d = parseLocalDate(dateStr);
+  const wd = WEEKDAY_ABBR_PT[d.getDay()];
+  const day = String(d.getDate()).padStart(2,'0');
+  const mo = MONTH_ABBR_PT[d.getMonth()];
+  return `${wd} · ${day} ${mo}`;
+}
+
+function formatDateLong(dateStr){
+  const d = parseLocalDate(dateStr);
+  return `${d.getDate()} ${MONTH_ABBR_PT[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatTrainingDuration(startDate){
   if(!startDate) return null;
   const start = parseLocalDate(startDate);
   const now = new Date();
   if(start > now) return null;
   const diffDays = Math.floor((now - start) / 86400000);
-  if(diffDays < 1) return 'começou hoje';
+  if(diffDays < 1) return 'hoje';
   if(diffDays < 30){
     const weeks = Math.floor(diffDays / 7);
-    if(weeks < 1) return `há ${diffDays} dia${diffDays===1?'':'s'}`;
-    return `há ${weeks} semana${weeks===1?'':'s'}`;
+    if(weeks < 1) return `${diffDays} dia${diffDays===1?'':'s'}`;
+    return `${weeks} semana${weeks===1?'':'s'}`;
   }
   let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
   if(now.getDate() < start.getDate()) months--;
@@ -523,12 +607,24 @@ function formatTrainingTime(startDate){
   const parts = [];
   if(years > 0) parts.push(`${years} ano${years===1?'':'s'}`);
   if(remMonths > 0 || years === 0) parts.push(`${remMonths} ${remMonths===1?'mês':'meses'}`);
-  return `há ${parts.join(' e ')}`;
+  return parts.join(' e ');
 }
 
-function trainingTimeTag(startDate){
-  const label = formatTrainingTime(startDate);
-  return label ? `<span class="time-tag">${label}</span>` : '';
+function initials(name){
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const first = parts[0] ? parts[0][0] : '';
+  const last = parts.length > 1 ? parts[parts.length-1][0] : '';
+  return (first+last).toUpperCase();
+}
+
+function avatarHtml(s, variant){
+  const bg = BELT_COLOR[s.belt] || BELT_COLOR.branca;
+  const fg = BELT_TEXT[s.belt] || '#fff';
+  if(variant === 'mini'){
+    return `<div class="avatar" style="background:${bg};color:${fg};width:32px;height:32px;font-size:11px;">${initials(s.name)}</div>`;
+  }
+  const cls = variant === 'big' ? 'avatar big' : 'avatar';
+  return `<div class="${cls}" style="background:${bg};color:${fg};--ring:${bg};">${initials(s.name)}</div>`;
 }
 
 let rosterFilter = { name: '', belt: '' };
@@ -626,39 +722,11 @@ function renderManageRoster(){
   el.innerHTML = '';
   filtered.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
     const row = document.createElement('div');
-    row.className = 'student-row';
-    if(editingStudentId === s.id){
-      row.innerHTML = `
-        <input type="text" id="editName_${s.id}" value="${s.name}" style="flex:1;">
-        <select id="editBelt_${s.id}">
-          <option value="branca" ${s.belt==='branca'?'selected':''}>Branca</option>
-          <option value="azul" ${s.belt==='azul'?'selected':''}>Azul</option>
-          <option value="roxa" ${s.belt==='roxa'?'selected':''}>Roxa</option>
-          <option value="marrom" ${s.belt==='marrom'?'selected':''}>Marrom</option>
-          <option value="preta" ${s.belt==='preta'?'selected':''}>Preta</option>
-        </select>
-        <div class="field-inline">
-          <label for="editStart_${s.id}" class="field-label">Início no jiu-jitsu</label>
-          <input type="date" id="editStart_${s.id}" value="${s.startDate || ''}">
-        </div>
-        <button data-save="${s.id}">Salvar</button>
-        <button class="ghost" data-cancel="${s.id}">Cancelar</button>
-      `;
-    }else{
-      row.innerHTML = `
-        <div class="name">${s.name}</div>
-        <span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span>
-        ${trainingTimeTag(s.startDate)}
-        <button class="ghost" data-edit="${s.id}">Editar</button>
-        <button class="del" data-del2="${s.id}" title="Remover aluno">×</button>
-      `;
-    }
+    row.className = 'mini-student';
+    row.innerHTML = `${avatarHtml(s,'mini')}<span>${s.name}</span><span class="chev">›</span>`;
+    row.onclick = () => openStudentDetail(s.id);
     el.appendChild(row);
   });
-  el.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => startEditStudent(b.dataset.edit));
-  el.querySelectorAll('[data-save]').forEach(b => b.onclick = () => saveEditStudent(b.dataset.save));
-  el.querySelectorAll('[data-cancel]').forEach(b => b.onclick = cancelEditStudent);
-  el.querySelectorAll('[data-del2]').forEach(b => b.onclick = () => removeStudent(b.dataset.del2));
 }
 
 function beltLabel(belt){
@@ -674,36 +742,97 @@ function studentClassCount(studentId){
   return count;
 }
 
+let selectedStudentId = null;
+
+function openStudentDetail(id){
+  selectedStudentId = id;
+  editingStudentId = null;
+  const sec = document.getElementById('studentDetailSection');
+  sec.style.display = 'block';
+  renderStudentDetail();
+  sec.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function closeStudentDetail(){
+  selectedStudentId = null;
+  editingStudentId = null;
+  const sec = document.getElementById('studentDetailSection');
+  if(sec) sec.style.display = 'none';
+}
+
+function renderStudentDetail(){
+  const card = document.getElementById('detailCard');
+  if(!card) return;
+  const s = data.students.find(x => x.id === selectedStudentId);
+  if(!s){ closeStudentDetail(); return; }
+  if(editingStudentId === s.id){
+    card.innerHTML = `
+      <div class="detail-top">
+        ${avatarHtml(s,'big')}
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+          <input type="text" id="editName_${s.id}" value="${s.name}">
+          <select id="editBelt_${s.id}">
+            <option value="branca" ${s.belt==='branca'?'selected':''}>Faixa branca</option>
+            <option value="azul" ${s.belt==='azul'?'selected':''}>Faixa azul</option>
+            <option value="roxa" ${s.belt==='roxa'?'selected':''}>Faixa roxa</option>
+            <option value="marrom" ${s.belt==='marrom'?'selected':''}>Faixa marrom</option>
+            <option value="preta" ${s.belt==='preta'?'selected':''}>Faixa preta</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-inline" style="margin-bottom:14px;">
+        <label for="editStart_${s.id}" class="field-label">Início no jiu-jitsu</label>
+        <input type="date" id="editStart_${s.id}" value="${s.startDate || ''}">
+      </div>
+      <div class="row">
+        <button class="btn btn-primary" id="detailSaveBtn" style="flex:1;">Salvar</button>
+        <button class="btn btn-secondary" id="detailCancelBtn" style="flex:1;">Cancelar</button>
+      </div>
+    `;
+    document.getElementById('detailSaveBtn').onclick = () => saveEditStudent(s.id);
+    document.getElementById('detailCancelBtn').onclick = () => { cancelEditStudent(); renderStudentDetail(); };
+  }else{
+    const pillColor = BELT_COLOR[s.belt] || BELT_COLOR.branca;
+    const duration = formatTrainingDuration(s.startDate);
+    card.innerHTML = `
+      <div class="detail-top">
+        ${avatarHtml(s,'big')}
+        <div>
+          <div class="detail-name">${s.name}</div>
+          <div class="belt-pill" style="--pill:${pillColor}">${beltLabel(s.belt)}</div>
+        </div>
+      </div>
+      <div class="detail-row"><span class="detail-label">Treinando com a gente há</span><span class="detail-value">${duration || '—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Início no jiu-jitsu</span><span class="detail-value">${s.startDate ? formatDateLong(s.startDate) : '—'}</span></div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn btn-secondary" id="detailEditBtn" style="flex:1;">Editar</button>
+        <button class="btn btn-secondary" id="detailRemoveBtn" style="flex:1;color:var(--accent);">Remover aluno</button>
+      </div>
+    `;
+    document.getElementById('detailEditBtn').onclick = () => { startEditStudent(s.id); renderStudentDetail(); };
+    document.getElementById('detailRemoveBtn').onclick = () => removeStudent(s.id);
+  }
+}
+
 function render(){
   let date = currentDate();
   if(!isTrainingDay(date)) date = nearestTrainingDay(date, 0);
   document.getElementById('classDate').value = date;
-  document.getElementById('classDateDisplay').textContent = fmtDate(date);
+  document.getElementById('classDateTag').textContent = classDateTagLabel(date);
+  updateMonthBadge();
 
-  // metrics
   const totalClasses = Object.keys(data.attendance).filter(d => data.attendance[d].length > 0).length;
   const presentToday = (data.attendance[date] || []).length;
 
   document.getElementById('mTotalStudents').textContent = data.students.length;
-  document.getElementById('mPresentLabel').textContent = 'Presença ' + fmtDate(date);
+  document.getElementById('mPresentLabel').textContent = 'Presença';
   document.getElementById('mPresentToday').textContent = presentToday;
   document.getElementById('mTotalClasses').textContent = totalClasses;
 
-  // stripe signature (belt-like progress marks, purely decorative, based on total classes capped at 8)
-  const stripe = document.getElementById('stripe');
-  stripe.innerHTML = '';
-  const marks = Math.min(8, totalClasses);
-  for(let i=0;i<8;i++){
-    const s = document.createElement('span');
-    if(i < marks) s.classList.add('on');
-    stripe.appendChild(s);
-  }
-
-  // roster
   const roster = document.getElementById('roster');
   roster.innerHTML = '';
   if(data.students.length === 0){
-    roster.innerHTML = '<div class="empty">Nenhum aluno cadastrado ainda. Adicione o primeiro acima.</div>';
+    roster.innerHTML = '<div class="empty">Nenhum aluno cadastrado ainda. Use o botão "Adicionar aluno" abaixo.</div>';
   }else{
     const filteredRoster = data.students.filter(s => matchesFilter(s, rosterFilter));
     if(filteredRoster.length === 0){
@@ -712,23 +841,20 @@ function render(){
       const presentSet = new Set(data.attendance[date] || []);
       filteredRoster.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
         const present = presentSet.has(s.id);
-        const count = studentClassCount(s.id);
         const row = document.createElement('div');
-        row.className = 'student-row' + (present ? ' present' : '');
+        row.className = 'student';
         row.innerHTML = `
-          <div class="check ${present?'on':''}" data-id="${s.id}">${present?'✓':''}</div>
-          <div class="name" data-id="${s.id}">${s.name}</div>
-          <span class="belt-tag belt-${s.belt}">${beltLabel(s.belt)}</span>
-          ${trainingTimeTag(s.startDate)}
-          <span class="freq">${count} aula${count===1?'':'s'}</span>
-          <button class="del" data-del="${s.id}" title="Remover aluno">×</button>
+          ${avatarHtml(s)}
+          <div class="name-block"><div class="s-name">${s.name}</div><div class="s-belt">${beltLabel(s.belt)}</div></div>
+          <div class="toggle ${present?'on':''}" data-id="${s.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
         `;
         roster.appendChild(row);
       });
     }
   }
 
-  // ranking
   const rankBody = document.getElementById('rankBody');
   rankBody.innerHTML = '';
   const ranked = data.students.slice().map(s=>{
@@ -749,20 +875,18 @@ function render(){
   renderChart();
   attachRosterEvents();
   renderManageRoster();
+  if(selectedStudentId) renderStudentDetail();
 }
 
 function attachRosterEvents(){
-  document.querySelectorAll('.check, .name').forEach(el=>{
+  document.querySelectorAll('#roster .toggle[data-id]').forEach(el=>{
     el.onclick = () => toggleAttendance(el.dataset.id);
-  });
-  document.querySelectorAll('[data-del]').forEach(el=>{
-    el.onclick = (e) => { e.stopPropagation(); removeStudent(el.dataset.del); };
   });
 }
 
 function freqBarColor(pct){
   if(pct >= 80) return 'var(--ok)';
-  if(pct >= 50) return 'var(--mat-blue)';
+  if(pct >= 50) return 'var(--azure)';
   return 'var(--accent)';
 }
 
@@ -785,7 +909,7 @@ function renderChart(){
       datasets: [{
         label: 'Presentes',
         data: values,
-        backgroundColor: '#1D4E7A',
+        backgroundColor: '#1671B3',
         borderRadius: 4,
         maxBarThickness: 28,
       }]
@@ -795,7 +919,7 @@ function renderChart(){
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#E2DFD4' } },
+        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#E3EDF4' } },
         x: { grid: { display: false } }
       }
     }
@@ -913,7 +1037,7 @@ function downloadCsv(){
   report.rows.forEach(r=>{
     csv += `"${r.name}","${r.belt}",${r.count},${r.total},${r.pct}\n`;
   });
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
   downloadBlob(blob, `frequencia_${report.start}_a_${report.end}.csv`);
   showToast('CSV baixado');
 }
@@ -978,23 +1102,58 @@ function importBackup(file){
   reader.readAsText(file);
 }
 
-document.getElementById('settingsBtn').onclick = () => {
-  const panel = document.getElementById('settingsPanel');
-  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+document.getElementById('addStudentBtn').onclick = () => {
+  const sec = document.getElementById('addStudentSection');
+  const ossSec = document.getElementById('ossSection');
+  const opening = sec.style.display === 'none';
+  ossSec.style.display = 'none';
+  sec.style.display = opening ? 'block' : 'none';
+  if(opening) sec.scrollIntoView({behavior:'smooth', block:'start'});
 };
 
-document.querySelectorAll('.accordion-header').forEach(header => {
-  header.addEventListener('click', () => {
-    const body = document.getElementById('section-' + header.dataset.section);
-    const isOpen = body.style.display !== 'none';
-    document.querySelectorAll('.accordion-body').forEach(b => b.style.display = 'none');
-    document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
-    if(!isOpen){
-      body.style.display = 'block';
-      header.classList.add('open');
-    }
-  });
-});
+document.getElementById('ossBtn').onclick = () => {
+  const sec = document.getElementById('ossSection');
+  const addSec = document.getElementById('addStudentSection');
+  const opening = sec.style.display === 'none';
+  addSec.style.display = 'none';
+  if(!opening){
+    document.getElementById('manageSub').style.display = 'none';
+    document.getElementById('backupSub').style.display = 'none';
+    document.getElementById('manageToggle').classList.remove('active');
+    document.getElementById('backupToggle').classList.remove('active');
+    closeStudentDetail();
+  }
+  sec.style.display = opening ? 'block' : 'none';
+  if(opening) sec.scrollIntoView({behavior:'smooth', block:'start'});
+};
+
+document.getElementById('manageToggle').onclick = () => {
+  const sub = document.getElementById('manageSub');
+  const backupSub = document.getElementById('backupSub');
+  const opening = sub.style.display === 'none';
+  backupSub.style.display = 'none';
+  document.getElementById('backupToggle').classList.remove('active');
+  if(!opening) closeStudentDetail();
+  sub.style.display = opening ? 'block' : 'none';
+  document.getElementById('manageToggle').classList.toggle('active', opening);
+};
+
+document.getElementById('backupToggle').onclick = () => {
+  const sub = document.getElementById('backupSub');
+  const manageSub = document.getElementById('manageSub');
+  const opening = sub.style.display === 'none';
+  manageSub.style.display = 'none';
+  document.getElementById('manageToggle').classList.remove('active');
+  closeStudentDetail();
+  sub.style.display = opening ? 'block' : 'none';
+  document.getElementById('backupToggle').classList.toggle('active', opening);
+};
+
+document.getElementById('detailBackBtn').onclick = closeStudentDetail;
+
+document.getElementById('reportBtn').onclick = () => {
+  document.getElementById('reportSection').scrollIntoView({behavior:'smooth', block:'start'});
+};
 
 document.getElementById('exportBtn').onclick = exportBackup;
 document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
